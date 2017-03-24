@@ -56,6 +56,7 @@ public class OrdersConfigurationProperties {
 
     private class ServiceUri {
         private final Hostname hostname;
+        private final String hostport = "8080";
         private final Domain domain;
         private final String endpoint;
 
@@ -66,7 +67,11 @@ public class OrdersConfigurationProperties {
         }
 
         public URI toUri() {
-            return URI.create(wrapHTTP(hostname.toString() + domain.toString()) + endpoint);
+            if (hostport != null && !hostport.equals("")) { 
+                return URI.create(wrapHTTP(hostname.toString() + domain.toString()) + ":" + hostport + endpoint);
+            } else {
+                return URI.create(wrapHTTP(hostname.toString() + domain.toString()) + endpoint);
+            }
         }
 
         private String wrapHTTP(String host) {
@@ -77,6 +82,7 @@ public class OrdersConfigurationProperties {
         public String toString() {
             return "ServiceUri{" +
                     "hostname=" + hostname +
+                    ",hostport=" + hostport +
                     ", domain=" + domain +
                     '}';
         }

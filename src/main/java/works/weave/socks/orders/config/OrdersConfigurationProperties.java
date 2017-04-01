@@ -7,13 +7,21 @@ import java.net.URI;
 @ConfigurationProperties
 public class OrdersConfigurationProperties {
     private String domain = "";
+    private String paymentHost = "";
+    private String shippingHost = "";
+
+    public OrdersConfigurationProperties(String domain, String paymentHost, String shippingHost) {
+	    this.domain = domain;
+	    this.paymentHost = paymentHost;
+	    this.shippingHost = shippingHost;
+    }
 
     public URI getPaymentUri() {
-        return new ServiceUri(new Hostname("payment"), new Domain(domain), "/paymentAuth").toUri();
+        return new ServiceUri(new Hostname(paymentHost), new Domain(domain), "/paymentAuth").toUri();
     }
 
     public URI getShippingUri() {
-        return new ServiceUri(new Hostname("shipping"), new Domain(domain), "/shipping").toUri();
+        return new ServiceUri(new Hostname(shippingHost), new Domain(domain), "/shipping").toUri();
     }
 
     public void setDomain(String domain) {
